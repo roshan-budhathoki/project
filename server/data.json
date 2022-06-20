@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "roshan",
+      "email": "roshan@gmail.com",
+      "password": "roshan@123",
+      "address": "biratnagar"
+    },
+    {
+      "id": "4",
+      "name": "roshan",
+      "email": "roshani@gmail.com",
+      "password": "roshan@gmail.com",
+      "address": "muglin"
+    },
+    {
+      "id": "3",
+      "name": "roshan",
+      "email": "roshan33@gmail.com",
+      "password": "roshan@gmail.com",
+      "address": "muglin"
+    }
+  ]
+}

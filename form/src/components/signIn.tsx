@@ -1,0 +1,74 @@
+import { Button, Form, Input } from 'antd';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../app/store';
+import { checkUser } from '../features/userSlice';
+
+interface userData{
+    email: string;
+    password: string;
+}
+
+const Signin: React.FC = () => {
+    const details = useSelector((state:RootState) => state.user.value);
+    const dispatch = useDispatch();
+    const{handleSubmit, control, formState: {errors}, setValue} = useForm<userData>()
+
+    const onSubmit:SubmitHandler<userData> = (data) =>{
+        dispatch(checkUser());
+        console.log(details);
+        setValue('email', '');
+        setValue('password', '');
+    } 
+    return (
+        <div className='flex justify-center h-screen items-center'>
+            <Form
+                name="basic"
+                labelCol={{ span: 8 }}
+                wrapperCol={{ span: 16 }}
+                className='border-2 border-blue-300 pt-4 px-6 rounded-lg'
+                onFinish={handleSubmit(onSubmit)}
+            >
+                <h1 className='text-center pb-5 text-xl font-semibold'>Sign In</h1>
+                <Controller 
+                    control={control}
+                    name="email"
+                    rules={{required:true}}
+                    render={({field: {value, onChange}}) => (
+                        <Form.Item
+                        label="Email"
+                        >
+                        <Input type={"email"} className='rounded-full' value={value} onChange={onChange} placeholder='enter your email' />
+                        </Form.Item>
+                    )}
+                />
+                <div className='h-5 mb-2'>
+                    <p className='w-full -mt-5 ml-[35%] mb-3 text-red-400  font-semibold rounded-sm'>{errors.email && "Email is required"}</p>
+                </div>
+                <Controller 
+                    control={control}
+                    name="password"
+                    rules={{required: true, minLength:6}}
+                    render={({field: {value, onChange}}) => (
+                        <Form.Item
+                        label="Password"
+                        >
+                        <Input.Password className='rounded-full' value={value} onChange={onChange} placeholder='enter your username' />
+                        </Form.Item>
+                    )}
+                />
+                <div className='h-5 mb-2'>
+                    <p className='w-full -mt-5 ml-[35%] mb-3 text-red-400  font-semibold rounded-sm'>{errors.password && errors.password.type === "required" && "Password is required"}</p>
+                    <p className='w-full -mt-5 ml-[15%] mb-8 text-red-400  font-semibold rounded-sm'>{errors.password && errors.password.type === "minLength" && "Password must be atleast 6 letters"}</p>
+                </div>
+                <Form.Item wrapperCol={{offset: 1}}>
+                <Button type="primary" htmlType="submit" className='border-2 w-full border-slate-200 bg-blue-500 text-slate-100 rounded-lg'>
+                    Submit
+                </Button> 
+                </Form.Item>
+            </Form>
+        </div>
+    );
+};
+
+export default Signin;
